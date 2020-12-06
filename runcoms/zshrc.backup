@@ -1,0 +1,89 @@
+#
+# Executes commands at the start of an interactive session.
+#
+# Authors:
+#   Sorin Ionescu <sorin.ionescu@gmail.com>
+#
+
+# Source Prezto.
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+fi
+
+# Customize to your needs...
+
+export PATH="/usr/local/Cellar/emacs/25.3/bin:$PATH"
+export PATH="/usr/local/Cellar/tmux/2.7/bin:$PATH"
+
+# java
+export PATH="$HOME/.jenv/bin:$PATH"
+eval "$(jenv init -)"
+export JAVA_HOME=/Applications/OpenJDK/jdk8u144-b01
+
+# andriod
+export ANDROID_HOME="$HOME/Library/android/sdk"
+
+# python
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+# ruby
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
+
+# Yarn
+export PATH="/usr/local/bin:$PATH"
+
+# node
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+nvm use default
+
+export PATH="/Users/martinrichards/.bin:$PATH"
+
+# scala bloop
+export PATH="/Users/martinrichards/.bloop:$PATH"
+autoload -U compinit
+fpath=($HOME/.bloop/zsh $fpath)
+compinit
+
+# emacs
+alias e='emacsclient -t'
+alias ec='emacsclient -c'
+alias vim='emacsclient -t'
+alias vi='emacsclient -t'
+export EDITOR="ec"
+
+destroy() {
+  ps aux | grep "$*" | awk '{print $2}' | xargs kill -9;
+}
+
+# YOCO
+export TEST_JDBC_URL="postgres://yoco:password@localhost:5432/yoco_core_test"
+
+autoload -U promptinit; promptinit
+prompt pure
+
+# tabtab source for serverless package
+# uninstall by removing these lines or running `tabtab uninstall serverless`
+[[ -f /Users/martinrichards/.config/yarn/global/node_modules/tabtab/.completions/serverless.zsh ]] && . /Users/martinrichards/.config/yarn/global/node_modules/tabtab/.completions/serverless.zsh
+# tabtab source for sls package
+# uninstall by removing these lines or running `tabtab uninstall sls`
+[[ -f /Users/martinrichards/.config/yarn/global/node_modules/tabtab/.completions/sls.zsh ]] && . /Users/martinrichards/.config/yarn/global/node_modules/tabtab/.completions/sls.zsh
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/martin/.bin/google-cloud-sdk/path.zsh.inc' ]; then . '/home/martin/.bin/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/martin/.bin/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/martin/.bin/google-cloud-sdk/completion.zsh.inc'; fi
+
+export GOOGLE_APPLICATION_CREDENTIALS='$HOME/.gcp.credentials.json'
+
+# KOPS
+export AWS_ACCESS_KEY_ID=$(aws configure get aws_access_key_id)
+export AWS_SECRET_ACCESS_KEY=$(aws configure get aws_secret_access_key)
+
+# Azure
+autoload bashcompinit && bashcompinit
+source '/Users/martinrichards/lib/azure-cli/az.completion'
